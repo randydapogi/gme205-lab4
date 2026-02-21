@@ -32,7 +32,7 @@ def total_active_area(parcels: list[Parcel]) -> float:
 
 
 def parcels_above_threshold(parcels: list[Parcel], threshold: float) -> list:
-    return [parcel for parcel in parcels if parcel.area() > threshold]
+    return [parcel.as_dict() for parcel in parcels if parcel.area() > threshold]
 
 
 def count_by_zone(parcels: list[Parcel]) -> dict:
@@ -46,4 +46,4 @@ def count_by_zone(parcels: list[Parcel]) -> dict:
     return zone_dict
 
 def intersecting_parcels(parcels: list[Parcel], zone) -> list:
-    return [parcel for parcel in parcels if parcel.attributes["zone"] == zone]
+    return [parcel.as_dict() for parcel in parcels if parcel.attributes["zone"] == zone]
