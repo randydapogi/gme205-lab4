@@ -98,6 +98,7 @@ summary = {
         "development_area_zone": development_area_zone
     },
     "result": {
+        "parcels_count": len(parcel_list),
         "active_area": active_area,
         "parcel_exceed_list": parcel_exceed_list,
         "zone_parcel_dict": zone_parcel_dict,

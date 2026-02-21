@@ -4,6 +4,7 @@
     "development_area_zone": "Commercial"
   },
   "result": {
+    "parcels_count": 100,
     "active_area": 597759.8543204443,
     "parcel_exceed_list": [
       {

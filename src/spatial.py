@@ -3,8 +3,6 @@ import math
 from shapely.geometry import Point as ShapelyPoint
 from shapely.geometry.base import BaseGeometry
 
-# from analysis import approximate_area_m2
-
 
 class SpatialObject:
     def __init__(self, geometry: BaseGeometry):

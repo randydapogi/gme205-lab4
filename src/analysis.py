@@ -1,28 +1,13 @@
-import math
-from typing import Union
-from shapely.geometry import Polygon, MultiPolygon
-
 from spatial import Parcel
 
 
-# # from gemini
-# def approximate_area_m2(geometry: Union[Polygon, MultiPolygon]) -> float:
-#     """
-#     Approximates the area of a WGS84 Polygon or MultiPolygon in square meters.
-#     """
-#     # Both Polygon and MultiPolygon have a centroid and an area attribute
-#     lat: float = geometry.centroid.y
-
-#     # 1 deg lat ~ 111.32km, 1 deg lon ~ 111.32km * cos(lat)
-#     meters_per_degree_lat: float = 111320.0
-#     meters_per_degree_lon: float = 111320.0 * math.cos(math.radians(lat))
-
-#     # Scaling factor for area is (lat_scale * lon_scale)
-#     area_meters: float = geometry.area * meters_per_degree_lat * meters_per_degree_lon
-
-#     return area_meters
-
-
+##########################################
+# FOR EACH parcel IN parcel_list
+#     IF parcel.active is TRUE
+#         active_area = active_area + parcel.area
+#     END IF
+# END FOR
+##########################################
 def total_active_area(parcels: list[Parcel]) -> float:
     total_area = 0
     for parcel in parcels:
@@ -31,10 +16,30 @@ def total_active_area(parcels: list[Parcel]) -> float:
     return total_area
 
 
+##########################################
+# FOR EACH parcel IN parcel_list
+#     IF parcel.area > threshold
+#         APPEND parcel to parcel_exceed_list
+#     END IF
+# END FOR
+##########################################
 def parcels_above_threshold(parcels: list[Parcel], threshold: float) -> list:
-    return [parcel.as_dict() for parcel in parcels if parcel.area() > threshold]
+    parcel_exceed_list = []
+    for parcel in parcels:
+        if parcel.area() > threshold:
+            parcel_exceed_list.append(parcel.as_dict())
+    return parcel_exceed_list
 
 
+##########################################
+# FOR EACH parcel IN parcel_list
+#     IF parcel.zone A KEY OF DICT zone_parcel_dict
+#         SET zone_parcel_dict[parcel.zone] = zone_parcel_dict[parcel.zone] + 1
+#     ELSE
+#         SET zone_parcel_dict[parcel.zone] = 1
+#     END IF
+# END FOR
+##########################################
 def count_by_zone(parcels: list[Parcel]) -> dict:
     zone_dict = {}
     for parcel in parcels:
@@ -45,5 +50,17 @@ def count_by_zone(parcels: list[Parcel]) -> dict:
             zone_dict[zone] = 1
     return zone_dict
 
+
+##########################################
+# FOR EACH parcel IN parcel_list
+#     IF parcel.zone IS EQUAL TO development_area_zone
+#         APPEND parcel to parcel_intersect_list
+#     END IF
+# END FOR
+##########################################
 def intersecting_parcels(parcels: list[Parcel], zone) -> list:
-    return [parcel.as_dict() for parcel in parcels if parcel.attributes["zone"] == zone]
+    parcel_intersect_list = []
+    for parcel in parcels:
+        if parcel.attributes["zone"] == zone:
+            parcel_intersect_list.append(parcel.as_dict())
+    return parcel_intersect_list
