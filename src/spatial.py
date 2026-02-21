@@ -1,7 +1,9 @@
+import math
+
 from shapely.geometry import Point as ShapelyPoint
 from shapely.geometry.base import BaseGeometry
 
-from analysis import approximate_area_m2
+# from analysis import approximate_area_m2
 
 
 class SpatialObject:
@@ -27,7 +29,17 @@ class SpatialObject:
         if self.geometry.area <= 0:
             return 0.0
 
-        return approximate_area_m2(self.geometry)
+         # Both Polygon and MultiPolygon have a centroid and an area attribute
+        lat: float = self.geometry.centroid.y
+
+        # 1 deg lat ~ 111.32km, 1 deg lon ~ 111.32km * cos(lat)
+        meters_per_degree_lat: float = 111320.0
+        meters_per_degree_lon: float = 111320.0 * math.cos(math.radians(lat))
+
+        # Scaling factor for area is (lat_scale * lon_scale)
+        area_meters: float = self.geometry.area * meters_per_degree_lat * meters_per_degree_lon
+
+        return area_meters
 
     def intersects(self, other) -> bool:
         return self.geometry.intersects(other.geometry)
