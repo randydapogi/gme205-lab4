@@ -52,23 +52,23 @@ development_area_zone = "Commercial"
 # SET parcel_intersect_list = []
 
 # FOR EACH parcel IN parcel_list
-# IF parcel.active is TRUE
-#     total_active_area = total_active_area + parcel.area
-# END IF
+#     IF parcel.active is TRUE
+#         total_active_area = total_active_area + parcel.area
+#     END IF
 
-# IF parcel.area > threshold
-#     APPEND parcel to parcel_exceed_list
-# END IF
+#     IF parcel.area > threshold
+#         APPEND parcel to parcel_exceed_list
+#     END IF
 
-# IF parcel.zone A KEY OF DICT zone_parcel_dict
-#     SET zone_parcel_dict[parcel.zone] = zone_parcel_dict[parcel.zone] + 1
-# ELSE
-#     SET zone_parcel_dict[parcel.zone] = 1
-# END IF
+#     IF parcel.zone A KEY OF DICT zone_parcel_dict
+#         SET zone_parcel_dict[parcel.zone] = zone_parcel_dict[parcel.zone] + 1
+#     ELSE
+#         SET zone_parcel_dict[parcel.zone] = 1
+#     END IF
 
-# IF parcel.zone IS EQUAL TO development_area_zone
-#     APPEND parcel to parcel_intersect_list
-# END IF
+#     IF parcel.zone IS EQUAL TO development_area_zone
+#         APPEND parcel to parcel_intersect_list
+#     END IF
 # END FOR
 ##########################################
 active_area = total_active_area(parcel_list)
@@ -94,6 +94,7 @@ print(f"There are {len(parcel_intersect_list)} parcels that have zone [{developm
 ##########################################
 summary = {
     "parameters": {
+        "parcel_json_file": "data/parcels.json",
         "threshold": threshold,
         "development_area_zone": development_area_zone
     },

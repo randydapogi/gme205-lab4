@@ -1,5 +1,6 @@
 {
   "parameters": {
+    "parcel_json_file": "data/parcels.json",
     "threshold": 6500,
     "development_area_zone": "Commercial"
   },
